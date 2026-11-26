@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f7f8fb">
+  <meta name="description" content="Aether Tower Defense community value list and trade calculator.">
+  <title>Aether Value — Aether Tower Defense</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="brand-mark">A</span><span>AETHER <b>VALUE</b><small>COMMUNITY VALUE LIST</small></span></a>
+    <nav><a class="active" href="#values">Value List</a><a href="#calculator">Trade Calculator</a><a href="#about">About</a></nav>
+    <button class="admin-open" id="adminOpen">Admin Login</button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow">AETHER TOWER DEFENSE · COMMUNITY DATABASE</div>
+      <h1>Know the value.<br><span>Make the trade.</span></h1>
+      <p>A clean, community-focused reference for unit values, demand and trading.</p>
+      <div class="hero-stats">
+        <div><strong id="unitCount">0</strong><span>UNITS LISTED</span></div>
+        <div><strong id="lastUpdated">—</strong><span>LAST UPDATED</span></div>
+      </div>
+    </section>
+
+    <section class="section" id="values">
+      <div class="section-heading"><div><div class="eyebrow">DATABASE</div><h2>Unit Value List</h2></div><span class="muted" id="resultCount">0 units</span></div>
+      <div class="toolbar">
+        <label class="search"><span>⌕</span><input id="search" placeholder="Search units..." autocomplete="off"></label>
+        <select id="rarityFilter" aria-label="Filter by rarity"><option value="">All rarities</option></select>
+        <select id="tierFilter" aria-label="Filter by tier"><option value="">All tiers</option><option>S</option><option>A</option><option>B</option><option>C</option><option>D</option></select>
+        <select id="sortBy" aria-label="Sort units"><option value="value-desc">Value: High to low</option><option value="value-asc">Value: Low to high</option><option value="name">Name: A to Z</option></select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>UNIT</th><th>VALUE</th><th>DEMAND</th><th>RARITY</th><th>TREND</th><th>TIER</th><th>OBTAIN</th></tr></thead>
+          <tbody id="unitRows"><tr><td colspan="7" class="empty">Loading values…</td></tr></tbody>
+        </table>
+      </div>
+      <p class="footnote">Values are community estimates and may change. Always verify trades independently.</p>
+    </section>
+
+    <section class="section calculator" id="calculator">
+      <div class="section-heading"><div><div class="eyebrow">TRADE TOOL</div><h2>Trade Calculator</h2></div><span class="muted">Compare both sides</span></div>
+      <div class="trade-grid">
+        <div class="trade-side"><h3>You Give <span id="giveTotal">0</span></h3><div id="giveItems" class="trade-items"></div><button class="add-item" data-side="give">＋ Add unit</button></div>
+        <div class="trade-side"><h3>You Get <span id="getTotal">0</span></h3><div id="getItems" class="trade-items"></div><button class="add-item" data-side="get">＋ Add unit</button></div>
+      </div>
+      <div class="trade-result" id="tradeResult">Add units to compare the trade.</div>
+    </section>
+
+    <section class="about section" id="about"><div><div class="eyebrow">ABOUT THIS PROJECT</div><h2>Community values, clearly presented.</h2><p>Aether Value is an independent fan-made reference and is not affiliated with the game developers or Roblox.</p></div><span class="version">AETHER VALUE · v1.0</span></section>
+  </main>
+
+  <footer>Unofficial community resource · Aether Tower Defense</footer>
+
+  <dialog id="adminDialog">
+    <form method="dialog" class="dialog-head"><div><div class="eyebrow">RESTRICTED AREA</div><h2>Administrator</h2></div><button class="icon-button" aria-label="Close">✕</button></form>
+    <div id="loginPanel">
+      <p class="muted">Sign in with the administrator account configured in Supabase.</p>
+      <label>Email<input id="adminEmail" type="email" placeholder="admin@example.com"></label>
+      <label>Password<input id="adminPassword" type="password" placeholder="Password"></label>
+      <button class="primary full" id="loginButton">Sign in</button>
+      <p class="form-message" id="loginMessage"></p>
+    </div>
+    <div id="adminPanel" hidden>
+      <div class="admin-bar"><span id="adminIdentity"></span><button id="logoutButton" class="text-button">Sign out</button></div>
+      <h3 id="editorTitle">Add a unit</h3>
+      <form id="unitForm" class="editor-form">
+        <input type="hidden" id="unitId">
+        <label>Unit name<input id="unitName" required maxlength="80"></label>
+        <div class="form-two"><label>Value<input id="unitValue" type="number" min="0" step="1" required></label><label>Demand<select id="unitDemand"><option>Very High</option><option>High</option><option>Medium</option><option>Low</option><option>Very Low</option></select></label></div>
+        <div class="form-two"><label>Rarity<input id="unitRarity" placeholder="e.g. Mythic" required></label><label>Trend<select id="unitTrend"><option>Stable</option><option>Rising</option><option>Falling</option></select></label></div>
+        <div class="form-two"><label>Tier<select id="unitTier"><option>S</option><option>A</option><option>B</option><option>C</option><option>D</option></select></label><label>Obtain<input id="unitObtain" placeholder="e.g. Summon" required></label></div>
+        <div class="form-actions"><button type="submit" class="primary">Save unit</button><button type="button" class="secondary" id="resetForm">Clear</button></div>
+      </form>
+      <h3>Manage units</h3><div id="adminUnitList" class="admin-unit-list"></div>
+    </div>
+    <p class="setup-note">First-time setup: configure Supabase using the included README and SQL file.</p>
+  </dialog>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
